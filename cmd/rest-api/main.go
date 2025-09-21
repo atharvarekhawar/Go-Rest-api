@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"rest-api/internal/config"
+	"rest-api/internal/http/handlers/student"
 	"syscall"
 	"time"
 
@@ -22,9 +23,7 @@ func main() {
 	cfg := config.SerializeConfig()
 
 	router := http.NewServeMux()
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome to server 3000"))
-	})
+	router.HandleFunc("POST /api/students", student.New())
 
 	server := http.Server{
 		Addr:    cfg.Addr,
