@@ -8,13 +8,14 @@ import (
 	"log/slog"
 	"net/http"
 
+	"rest-api/internal/storage"
 	"rest-api/internal/types"
 	"rest-api/internal/utils/response"
 
 	"github.com/go-playground/validator/v10"
 )
 
-func New() http.HandlerFunc {
+func New(storage storage.Storage) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		slog.Info("Creating a Student")
 
