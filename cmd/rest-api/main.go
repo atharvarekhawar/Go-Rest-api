@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"rest-api/internal/config"
 	"rest-api/internal/http/handlers/student"
+	"rest-api/internal/storage/sqlite"
 	"syscall"
 	"time"
 
@@ -21,6 +22,13 @@ func main() {
 		log.Fatal("No .env file found")
 	}
 	cfg := config.SerializeConfig()
+
+	_, err := sqlite.New(cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	slog.Info("storage initialized", slog.String("env", cfg.Env), slog.String("version", "1.0.0"))
 
 	router := http.NewServeMux()
 	router.HandleFunc("POST /api/students", student.New())
